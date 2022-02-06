@@ -1,0 +1,14 @@
+.keyboard-button{
+    width: 60px;
+    height: 80px;
+    margin: 4px 3px;
+    border: 1px #000 solid;
+    border-radius: 7px;
+    background-color: gray;
+    font-size: large;
+    color: #fff;
+}
+.keyboard-button:nth-of-type(20), .keyboard-button:nth-of-type(28){
+    width:80px;
+    justify-self: end;
+}

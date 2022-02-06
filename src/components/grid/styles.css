@@ -1,0 +1,8 @@
+.grid{
+    border: 1px solid #fff;
+    height:500px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
