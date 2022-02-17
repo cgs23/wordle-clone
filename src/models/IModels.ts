@@ -4,7 +4,8 @@ export interface IGridModel{
     rows: IGridRowModel[];
     currentRow: number;
     currentTile: number;
-    gameStatus: GameStatus
+    gameStatus: GameStatus;
+    hiddenWord: string;
 }
 
 export interface IGridRowModel{

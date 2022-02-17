@@ -1,8 +1,7 @@
 import * as React from "react";
-import { useState } from "react";
 import "./styles.css";
 import GridRow from "../grid-row/GridRow";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Store } from "../../store/types/types";
 import { GridRowModel } from "../../models/GridRow"
 
