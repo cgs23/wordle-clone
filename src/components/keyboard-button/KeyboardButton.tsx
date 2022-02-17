@@ -12,6 +12,7 @@ const KeyboardButton: React.FunctionComponent<KeyboardButtonProps> = ({
   keyPressHandle,
 }) => {
   const id: string = `${character}-button`;
+
   const onClick = React.useCallback(() => {
     keyPressHandle(character);
   }, [character, keyPressHandle]);

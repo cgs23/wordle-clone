@@ -1,14 +1,18 @@
 import * as React from 'react';
 import './styles.css';
+import { GridTileModel } from '../../models/GridTile';
 
 interface GridCharacterProps {
-    character: string;
+    tile: GridTileModel;
+    index: number;
+    rowIndex: number;
 }
  
-const GridCharacter: React.FunctionComponent<GridCharacterProps> = ({character}) => {
+const GridCharacter: React.FunctionComponent<GridCharacterProps> = ({tile, index, rowIndex}) => {
+    const id: string = `row-${rowIndex}-tile-${index}`;
     return ( 
-        <div className="character">
-            {character}
+        <div className="character" id={id}>
+            {tile.character}
         </div>
      );
 }
