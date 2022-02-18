@@ -5,10 +5,7 @@ import { Action, ADD_TILE, DELETE_TILE, SUBMIT } from "../actions/actions";
 import { Store } from "../types/types";
 
 const addTile = (letter: string, grid: GridModel): GridModel => {
-    if (grid.currentTile > 4){
-        console.log('Word full -> Show error');
-        return grid;
-    }
+    if (grid.currentTile > 4) return grid;
     if (grid.gameStatus === GameStatus.PLAYING && grid.currentRow < 6){
         let newGridRows = grid.rows.slice();
         newGridRows[grid.currentRow].tiles[grid.currentTile].character = letter;
@@ -25,14 +22,9 @@ const addTile = (letter: string, grid: GridModel): GridModel => {
 }
 
 const deleteTile = (grid: GridModel): GridModel => {
-    if (grid.currentTile === 0){
-        console.log('Word empty -> Show error');
-        return grid;
-    }
+    if (grid.currentTile === 0) return grid;
     if (grid.gameStatus === GameStatus.PLAYING && grid.currentRow < 6){
         let newGridRows = grid.rows.slice();
-        console.log('in delete');
-        console.log(grid);
         newGridRows[grid.currentRow].tiles[grid.currentTile-1].character = '';
         return {
             ...grid,
@@ -58,11 +50,11 @@ const submitLine = (grid: GridModel): GridModel => {
     const guess = grid.rows[grid.currentRow].tiles.map(x => x.character).join('');
     let gameStatus: GameStatus = GameStatus.PLAYING;
     if (guess === grid.hiddenWord){
-        console.log('YOU WIN!');
+        alert('You win! :>');
         gameStatus = GameStatus.WIN;
     }
     else if (grid.currentRow === 5){
-        console.log('You lose :<');
+        alert('You lose :<');
         gameStatus = GameStatus.LOSE;
     }
     // colorize the letters 

@@ -1,8 +1,7 @@
 export const enum CharacterStatus {
     INCORRECT,
     MISPLACED,
-    CORRECT,
-    NONE 
+    CORRECT
 }
 
 export const enum GameStatus {
