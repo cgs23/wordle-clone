@@ -8,7 +8,7 @@ interface GridCharacterProps {
     index: number;
     rowIndex: number;
 }
- 
+
 const GridCharacter: React.FunctionComponent<GridCharacterProps> = ({tile, index, rowIndex}) => {
     const id: string = `row-${rowIndex}-tile-${index}`;
     const className = React.useMemo(() => {
@@ -22,15 +22,16 @@ const GridCharacter: React.FunctionComponent<GridCharacterProps> = ({tile, index
                 break;
             case CharacterStatus.INCORRECT:
             default:
+                className = className + ' incorrect';
                 break;
         }
         return className;
-      }, [tile.status]);    
-      return ( 
+      }, [tile.status]);
+      return (
         <div className={className} id={id}>
             {tile.character}
         </div>
      );
 }
- 
+
 export default GridCharacter;

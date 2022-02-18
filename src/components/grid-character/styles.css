@@ -6,6 +6,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #fff;
     font-size: larger;
+}
+
+.incorrect{
+    border: 1px solid #fff;
+}
+
+.missplaced{
+    border: 1px solid chocolate;
+}
+
+.correct{
+    border: 1px solid greenyellow;
 }

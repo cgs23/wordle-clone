@@ -1,6 +1,8 @@
 import { createStore } from "redux";
-import { GameStatus } from "../../constants/gameStatus";
+import { CharacterStatus, GameStatus } from "../../constants/gameStatus";
 import { GridModel } from "../../models/Grid";
+import { GridRowModel } from "../../models/GridRow";
+import { GridTileModel } from "../../models/GridTile";
 import { Action, ADD_TILE, DELETE_TILE, SUBMIT } from "../actions/actions";
 import { Store } from "../types/types";
 
@@ -38,8 +40,34 @@ const deleteTile = (grid: GridModel): GridModel => {
     }
 }
 
+const colorizeRow = (gridRow: GridRowModel, hiddenWord: string): GridRowModel => {
+    const hiddenWordArr = hiddenWord.split('');
+
+    const tiles: GridTileModel[] = gridRow.tiles;
+    // First loop to find the correct letters, cause if we search for them together it creates some issues
+    // that I don't feel like solving :D its 23:25 on a Friday cmon
+    for (let i = 0; i < tiles.length; i++) {
+        if (tiles[i].character === hiddenWordArr[i]){
+            tiles[i].status = CharacterStatus.CORRECT;
+            hiddenWordArr[i] = "_";
+        }
+    }
+    for (let i = 0; i < tiles.length; i++) {
+        if (tiles[i].status === CharacterStatus.CORRECT) continue;
+        let idx: number = hiddenWordArr.indexOf(tiles[i].character);
+        if (idx !== -1){
+            tiles[i].status = CharacterStatus.MISPLACED;
+            hiddenWordArr[idx] = "_";
+        }
+    }
+    return {
+        ...gridRow,
+        tiles: tiles
+    };
+}
+
 const submitLine = (grid: GridModel): GridModel => {
-    if (grid.gameStatus !== GameStatus.PLAYING) return grid;    
+    if (grid.gameStatus !== GameStatus.PLAYING) return grid;
     if (grid.currentTile !== 5){
         console.log('Not full word -> Show error');
         return grid;
@@ -57,9 +85,14 @@ const submitLine = (grid: GridModel): GridModel => {
         alert('You lose :<');
         gameStatus = GameStatus.LOSE;
     }
-    // colorize the letters 
+    // colorize the letters
+    let newGridRows: GridRowModel[] = grid.rows;
+    newGridRows[grid.currentRow] = colorizeRow(grid.rows[grid.currentRow], grid.hiddenWord);
+    console.log(newGridRows);
+    
     return {
         ...grid,
+        rows: newGridRows,
         gameStatus: gameStatus,
         currentRow: grid.currentRow + 1,
         currentTile: 0
