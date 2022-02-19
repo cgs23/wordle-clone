@@ -25,14 +25,14 @@ const GridCharacter: React.FunctionComponent<GridCharacterProps> = ({tile, index
             let className: string = 'character';
             switch(tile.status){
                 case CharacterStatus.CORRECT:
-                    className = className + ' correct';
+                    className = className + ' correct flip';
                     break;
                 case CharacterStatus.MISPLACED:
-                    className = className + ' missplaced';
+                    className = className + ' missplaced flip';
                     break;
                 case CharacterStatus.INCORRECT:
                 default:
-                    className = className + ' incorrect';
+                    className = className + ' incorrect flip';
                     break;
             }
             setCharClass(className);

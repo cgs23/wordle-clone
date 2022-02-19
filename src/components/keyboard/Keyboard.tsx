@@ -30,7 +30,7 @@ const Keyboard: React.FunctionComponent = () => {
     }
 
     return (
-        <section className='container keyboard'>
+        <section className='keyboard'>
             {keyboard.map(button => (
                 <KeyboardButton key={button.character} character={button.character} buttonStatus={button.status} keyPressHandle={buttonPressHandle} />
             ))}

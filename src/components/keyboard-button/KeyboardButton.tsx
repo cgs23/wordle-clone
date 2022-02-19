@@ -29,7 +29,6 @@ const KeyboardButton: React.FunctionComponent<KeyboardButtonProps> = ({
         break;
       case ButtonStatus.NONE:
       default:
-        className = className
         break;
     }
     return className;

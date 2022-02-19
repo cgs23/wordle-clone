@@ -20,7 +20,7 @@ const Grid: React.FunctionComponent = () => {
   
 
   return (
-    <section className="container grid">
+    <section className="grid">
         {gridState.rows.map((row: GridRowModel, index: number) => (
             <GridRow key={index} tiles={row.tiles} index={index} />
         ))}
