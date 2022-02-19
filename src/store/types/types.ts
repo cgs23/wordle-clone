@@ -3,5 +3,6 @@ import { GridModel } from "../../models/Grid";
 
 export interface Store {
     grid: GridModel,
-    gameStatus: GameStatus
+    gameStatus: GameStatus,
+    animate: boolean
 }

@@ -3,11 +3,11 @@ import { CharacterStatus, GameStatus } from "../../constants/gameStatus";
 import { GridModel } from "../../models/Grid";
 import { GridRowModel } from "../../models/GridRow";
 import { GridTileModel } from "../../models/GridTile";
-import { Action, ADD_TILE, DELETE_TILE, SUBMIT } from "../actions/actions";
+import { Action, ADD_TILE, DELETE_TILE, SUBMIT, INCREMENT_ROW, SET_ANIMATE } from "../actions/actions";
 import { Store } from "../types/types";
 
-const addTile = (letter: string, grid: GridModel): GridModel => {
-    if (grid.currentTile > 4) return grid;
+const addTile = (letter: string, grid: GridModel, animate: boolean): GridModel => {
+    if (grid.currentTile > 4 || animate) return grid;
     if (grid.gameStatus === GameStatus.PLAYING && grid.currentRow < 6){
         let newGridRows = grid.rows.slice();
         newGridRows[grid.currentRow].tiles[grid.currentTile].character = letter;
@@ -23,8 +23,8 @@ const addTile = (letter: string, grid: GridModel): GridModel => {
     }
 }
 
-const deleteTile = (grid: GridModel): GridModel => {
-    if (grid.currentTile === 0) return grid;
+const deleteTile = (grid: GridModel, animate: boolean): GridModel => {
+    if (grid.currentTile === 0 || animate) return grid;
     if (grid.gameStatus === GameStatus.PLAYING && grid.currentRow < 6){
         let newGridRows = grid.rows.slice();
         newGridRows[grid.currentRow].tiles[grid.currentTile-1].character = '';
@@ -66,8 +66,8 @@ const colorizeRow = (gridRow: GridRowModel, hiddenWord: string): GridRowModel =>
     };
 }
 
-const submitLine = (grid: GridModel): GridModel => {
-    if (grid.gameStatus !== GameStatus.PLAYING) return grid;
+const submitLine = (grid: GridModel, animate: boolean): GridModel => {
+    if (grid.gameStatus !== GameStatus.PLAYING || animate) return grid;
     if (grid.currentTile !== 5){
         console.log('Not full word -> Show error');
         return grid;
@@ -88,37 +88,58 @@ const submitLine = (grid: GridModel): GridModel => {
     // colorize the letters
     let newGridRows: GridRowModel[] = grid.rows;
     newGridRows[grid.currentRow] = colorizeRow(grid.rows[grid.currentRow], grid.hiddenWord);
-    console.log(newGridRows);
-    
     return {
         ...grid,
         rows: newGridRows,
         gameStatus: gameStatus,
-        currentRow: grid.currentRow + 1,
+        currentRow: grid.currentRow,
         currentTile: 0
     }
 }
-const initialGrid: GridModel = new GridModel();
+
+const incrementRow = (grid: GridModel): GridModel => {
+    if( grid.currentRow === 6){
+        console.log('you lost anyway so, lol');
+        return grid;
+    }
+    return {
+        ...grid,
+        currentRow: grid.currentRow + 1
+    }
+}
+
+const initialGrid: GridModel = new GridModel('HELLO');
 
 function reducer(state: Store = {
     grid: initialGrid,
-    gameStatus: GameStatus.PLAYING
+    gameStatus: GameStatus.PLAYING,
+    animate: false
 }, action: Action ) {
     switch (action.type){
         case ADD_TILE:
             return{
                 ...state,
-                grid: addTile(action.payload, state.grid)
+                grid: addTile(action.payload, state.grid, state.animate)
             }
         case DELETE_TILE:
             return{
                 ...state,
-                grid: deleteTile(state.grid)
+                grid: deleteTile(state.grid, state.animate)
             }
         case SUBMIT:
             return {
                 ...state,
-                grid: submitLine(state.grid)
+                grid: submitLine(state.grid, state.animate)
+            }
+        case INCREMENT_ROW:
+            return {
+                ...state,
+                grid: incrementRow(state.grid)
+            }
+        case SET_ANIMATE:
+            return {
+                ...state,
+                animate: action.payload
             }
         default:
             return state;

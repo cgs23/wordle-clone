@@ -8,7 +8,7 @@ import { GridRowModel } from "../../models/GridRow"
 const Grid: React.FunctionComponent = () => {
 
   const gridState = useSelector((state: Store) => state.grid);
-  
+
   return (
     <section className="container grid">
         {gridState.rows.map((row: GridRowModel, index: number) => (
