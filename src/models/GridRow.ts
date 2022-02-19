@@ -1,6 +1,6 @@
 import { GridTileModel } from "./GridTile";
 import { IGridRowModel } from "./IModels";
-import { CharacterStatus } from "../constants/gameStatus";
+import { CharacterStatus } from "../constants/enums";
 
 
 export class GridRowModel implements IGridRowModel{

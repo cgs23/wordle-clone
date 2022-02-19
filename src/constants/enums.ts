@@ -9,3 +9,10 @@ export const enum GameStatus {
     WIN,
     LOSE
 }
+
+export const enum ButtonStatus{
+    NONE,
+    INCORRECT,
+    MISSPLACED,
+    CORRECT
+}

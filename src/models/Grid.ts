@@ -1,4 +1,4 @@
-import { GameStatus } from "../constants/gameStatus";
+import { GameStatus } from "../constants/enums";
 import { GridRowModel } from "./GridRow";
 import { IGridModel } from "./IModels";
 

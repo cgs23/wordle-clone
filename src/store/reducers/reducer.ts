@@ -1,9 +1,11 @@
 import { createStore } from "redux";
-import { CharacterStatus, GameStatus } from "../../constants/gameStatus";
+import { ButtonStatus, CharacterStatus, GameStatus } from "../../constants/enums";
 import { GridModel } from "../../models/Grid";
 import { GridRowModel } from "../../models/GridRow";
 import { GridTileModel } from "../../models/GridTile";
-import { Action, ADD_TILE, DELETE_TILE, SUBMIT, INCREMENT_ROW, SET_ANIMATE } from "../actions/actions";
+import { KeyboardButtonModel } from "../../models/KeyboardButton";
+import { KeyboardModel } from "../../models/KeyboardModel";
+import { Action, ADD_TILE, DELETE_TILE, SUBMIT, INCREMENT_ROW, SET_ANIMATE, COLORIZE_KEYBOARD } from "../actions/actions";
 import { Store } from "../types/types";
 
 const addTile = (letter: string, grid: GridModel, animate: boolean): GridModel => {
@@ -98,7 +100,7 @@ const submitLine = (grid: GridModel, animate: boolean): GridModel => {
 }
 
 const incrementRow = (grid: GridModel): GridModel => {
-    if( grid.currentRow === 6){
+    if (grid.currentRow === 6){
         console.log('you lost anyway so, lol');
         return grid;
     }
@@ -108,12 +110,48 @@ const incrementRow = (grid: GridModel): GridModel => {
     }
 }
 
+const colorizeKeyboard = (grid: GridModel,keyboard: KeyboardModel): KeyboardModel => {
+    let newKeyboard: KeyboardButtonModel[] = keyboard.keyboard.slice();
+    let idx: number
+    grid.rows.forEach(row => {
+        row.tiles.forEach(tile => {
+            if (tile.character !== ''){
+                idx = keyboard.keyboard.map(x => x.character).indexOf(tile.character);
+                switch (tile.status) {
+                    case CharacterStatus.CORRECT:
+                    if (idx !== -1)
+                        keyboard.keyboard[idx].status = ButtonStatus.CORRECT;
+                        break;
+                    case CharacterStatus.INCORRECT:
+                        if (idx !== -1 && keyboard.keyboard[idx].status === ButtonStatus.NONE)
+                            keyboard.keyboard[idx].status = ButtonStatus.INCORRECT;
+                        break;
+                    case CharacterStatus.MISPLACED:
+                        if (idx !== -1 && keyboard.keyboard[idx].status === ButtonStatus.NONE)
+                            keyboard.keyboard[idx].status = ButtonStatus.MISSPLACED;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        })
+    });
+    console.log(newKeyboard);
+    
+    return {
+        ...keyboard,
+        keyboard: newKeyboard
+    }
+}
+
 const initialGrid: GridModel = new GridModel('HELLO');
+const initialKeyboard: KeyboardModel = new KeyboardModel();
 
 function reducer(state: Store = {
     grid: initialGrid,
     gameStatus: GameStatus.PLAYING,
-    animate: false
+    animate: false,
+    keyboard: initialKeyboard
 }, action: Action ) {
     switch (action.type){
         case ADD_TILE:
@@ -141,6 +179,11 @@ function reducer(state: Store = {
                 ...state,
                 animate: action.payload
             }
+        case COLORIZE_KEYBOARD:
+            return {
+                ...state,
+                keyboard: colorizeKeyboard(state.grid, state.keyboard)
+            };
         default:
             return state;
     }

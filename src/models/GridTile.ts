@@ -1,4 +1,4 @@
-import {CharacterStatus} from "../constants/gameStatus";
+import {CharacterStatus} from "../constants/enums";
 import { IGridTileModel } from "./IModels";
 
 export class GridTileModel implements IGridTileModel{

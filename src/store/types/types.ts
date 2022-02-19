@@ -1,8 +1,9 @@
-import { GameStatus } from "../../constants/gameStatus";
-import { GridModel } from "../../models/Grid";
+import { GameStatus } from "../../constants/enums";
+import { IGridModel, IKeyboardModel } from "../../models/IModels";
 
 export interface Store {
-    grid: GridModel,
+    grid: IGridModel,
     gameStatus: GameStatus,
-    animate: boolean
+    animate: boolean,
+    keyboard: IKeyboardModel
 }

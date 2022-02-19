@@ -1,11 +1,11 @@
 import * as React from 'react';
 import './styles.css';
 import { GridTileModel } from '../../models/GridTile';
-import { CharacterStatus } from '../../constants/gameStatus';
+import { CharacterStatus } from '../../constants/enums';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../../store/types/types';
-import { setAnimate } from '../../store/actions/actions';
+import { colorizeKeyboard, setAnimate } from '../../store/actions/actions';
 
 
 interface GridCharacterProps {
@@ -39,10 +39,12 @@ const GridCharacter: React.FunctionComponent<GridCharacterProps> = ({tile, index
         }
         if(rowIndex === currentRowState-1){
             setTimeout(()=> {
-                console.log('animating index: ' + index);
                 setClass(tile);
-                if(index === 4) dispatch(setAnimate(false));
-            }, 1000 * index);
+                if(index === 4){
+                    dispatch(setAnimate(false));
+                    dispatch(colorizeKeyboard());
+                }
+            }, 500 * index);
         }
       }, [rowIndex, currentRowState, index, tile.status, tile, dispatch]);
 

@@ -1,16 +1,16 @@
 import * as React from 'react';
 import './styles.css';
-import keyboard from '../../constants/keyboardButtons';
 import KeyboardButton from '../keyboard-button/KeyboardButton';
 import { useDispatch, useSelector } from "react-redux";
 import { submit, addTile, deleteTile, incrementRow, setAnimate } from '../../store/actions/actions';
 import { Store } from '../../store/types/types';
-
-
+import { IKeyboardButtonModel } from '../../models/IModels';
 
 const Keyboard: React.FunctionComponent = () => {
     const animate: boolean = useSelector((state: Store) => state.animate);
+    const keyboard: IKeyboardButtonModel[] = useSelector((state: Store) => state.keyboard.keyboard);
     const dispatch = useDispatch();
+
     const buttonPressHandle = (button:string) => {
         switch(button){
             case "<<":
@@ -31,8 +31,8 @@ const Keyboard: React.FunctionComponent = () => {
 
     return (
         <section className='container keyboard'>
-            {keyboard.map(key => (
-                <KeyboardButton key={key} character={key} keyPressHandle={buttonPressHandle} />
+            {keyboard.map(button => (
+                <KeyboardButton key={button.character} character={button.character} buttonStatus={button.status} keyPressHandle={buttonPressHandle} />
             ))}
         </section>
     );

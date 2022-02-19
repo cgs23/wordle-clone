@@ -12,3 +12,15 @@
     width:80px;
     justify-self: end;
 }
+
+.keyboard-button.correct{
+    background-color: green;
+}
+
+.keyboard-button.missplaced{
+    background-color: orange;
+}
+
+.keyboard-button.incorrect{
+    background-color: darkslategray;
+}
