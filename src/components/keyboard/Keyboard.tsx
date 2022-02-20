@@ -46,13 +46,8 @@ const Keyboard: React.FunctionComponent = () => {
         if (!isWordValid() && isSubmitable) toast("Word is not valid");
         if (!animate && isSubmitable && isWordValid()) {
           dispatch(submit());
-          console.log('ye');
-          
           dispatch(setAnimate(true));
-          console.log('yeeee');
           dispatch(incrementRow());
-          console.log(gridState);
-
         }
         break;
       default:
