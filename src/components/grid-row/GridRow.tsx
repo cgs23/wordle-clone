@@ -1,6 +1,5 @@
 import * as React from "react";
 import GridCharacter from "../grid-character/GridCharacter";
-import "./styles.css";
 import { GridTileModel } from "../../models/GridTile";
 
 interface GridRowProps {

@@ -1,36 +1,35 @@
-.character{
-    width: 62px;
-    height: 62px;
-    border: 2px solid#3a3a3c;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2px;
-    text-transform: capitalize;
-
+.character {
+  width: 62px;
+  height: 62px;
+  border: 2px solid#3a3a3c;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2px;
+  text-transform: capitalize;
 }
 
-.missplaced{
-    background-color: orangered;
+.missplaced {
+  background-color: orangered;
 }
 
-.correct{
-    background-color: green;
+.correct {
+  background-color: green;
 }
 
 .flip {
-    animation: 0.5s linear flipping;
+  animation: 0.5s linear flipping;
 }
 
 @keyframes flipping {
-    0% {
-        transform: rotateX(0deg);
-    }
-    50% {
-        transform: rotateX(90deg);
-    }
-    100% {
-        transform: rotateX(0deg);
-    }
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
 }

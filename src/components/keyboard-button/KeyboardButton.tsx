@@ -2,7 +2,6 @@ import * as React from "react";
 import { ButtonStatus } from "../../constants/enums";
 import "./styles.css";
 
-
 interface KeyboardButtonProps {
   character: string;
   buttonStatus: ButtonStatus;
@@ -16,16 +15,16 @@ const KeyboardButton: React.FunctionComponent<KeyboardButtonProps> = ({
 }) => {
   const id: string = `${character}-button`;
   const className = React.useMemo(() => {
-    let className = "keyboard-button"
+    let className = "keyboard-button";
     switch (buttonStatus) {
       case ButtonStatus.CORRECT:
-        className = className + ' correct';
+        className = className + " correct";
         break;
       case ButtonStatus.INCORRECT:
-        className = className + ' incorrect';
+        className = className + " incorrect";
         break;
       case ButtonStatus.MISSPLACED:
-        className = className + ' missplaced';
+        className = className + " missplaced";
         break;
       case ButtonStatus.NONE:
       default:

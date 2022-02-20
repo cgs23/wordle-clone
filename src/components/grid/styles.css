@@ -1,9 +1,8 @@
-
-.grid{
-    width: 330px;
-    margin-bottom: 30px;
+.grid {
+  width: 330px;
+  margin-bottom: 30px;
 }
 
-.grid div{
-    display: flex;
+.grid div {
+  display: flex;
 }
