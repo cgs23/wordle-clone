@@ -1,11 +1,13 @@
 .grid {
   width: 330px;
   margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
 }
 
 @media screen and (max-width: 40.5em) {
   .grid {
-    width: auto;
+    width: 100%;
   }
 
 }

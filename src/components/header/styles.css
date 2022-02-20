@@ -7,7 +7,7 @@
 
 @media screen and (max-width: 40.5em) {
   .header {
-    width: 400px;
+    width: auto;
     margin-bottom: 10px;
     font-size: small;
   }

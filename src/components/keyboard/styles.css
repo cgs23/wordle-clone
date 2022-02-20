@@ -3,10 +3,11 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  flex-shrink: 1;
 }
 
 @media screen and (max-width: 40.5em) {
   .keyboard {
-    width: 400px;
+    width: 320px;
   }
 }

@@ -6,6 +6,7 @@
   background-color: #818384;
   margin: 4px;
   text-transform: capitalize;
+  flex-shrink: 1;
 }
 
 .keyboard-button:nth-child(20),
@@ -15,12 +16,13 @@
 
 @media screen and (max-width: 40.5em) {
   .keyboard-button {
-    width: 30px;
-    height: 40px;
+    width: 28px;
+    height: 55px;
+    margin: 2px;
   }
   .keyboard-button:nth-child(20),
   .keyboard-button:nth-child(28) {
-  width: 50px;
+  width: 40px;
 }
 }
 .keyboard-button:hover {
@@ -39,6 +41,6 @@
 }
 
 .keyboard-button:nth-child(11) {
-  margin-left: 30px;
+  margin-left: 13px;
 }
 
