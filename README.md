@@ -1,6 +1,8 @@
 
 # Wordle clone
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6402e583-213b-49e8-ba17-d4f3f863f666/deploy-status)](https://app.netlify.com/sites/amazing-sinoussi-e409e7/deploys)
+
 Totally original idea, I know :D
 
 Developed using React and Redux. 
