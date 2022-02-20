@@ -21,6 +21,7 @@ export class Store implements Store{
     keyboard: IKeyboardModel;
     date: string;
     wasSaved: boolean;
+    savedRow: number
 
     constructor() {
         const storageValue = localStorage.getItem(STORAGE_KEY);
@@ -31,6 +32,7 @@ export class Store implements Store{
             this.keyboard = new KeyboardModel();
             this.date = new Date().toLocaleDateString();
             this.wasSaved = false;
+            this.savedRow = 0;
         }
         else{
             const state: Store = JSON.parse(storageValue);
@@ -40,6 +42,7 @@ export class Store implements Store{
             this.date = state.date;
             this.gameStatus = state.gameStatus;
             this.wasSaved = true;
+            this.savedRow = state.savedRow;
         }
     }
 }

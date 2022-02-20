@@ -136,7 +136,8 @@ const colorizeKeyboard = (state: Store): KeyboardModel => {
     const newState: Store = {
         ...state,
         keyboard: newKeyboardModel,
-        wasSaved: true
+        wasSaved: true,
+        savedRow: state.grid.currentRow
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newState));
 
