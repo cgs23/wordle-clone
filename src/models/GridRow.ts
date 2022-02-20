@@ -8,7 +8,7 @@ export class GridRowModel implements IGridRowModel {
   constructor() {
     this.tiles = [];
     for (let index = 0; index < 5; index++) {
-      this.tiles.push(new GridTileModel("", CharacterStatus.INCORRECT));
+      this.tiles.push(new GridTileModel("", CharacterStatus.NONE));
     }
   }
 }

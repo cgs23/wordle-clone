@@ -1,4 +1,5 @@
 export const enum CharacterStatus {
+  NONE,
   INCORRECT,
   MISPLACED,
   CORRECT,

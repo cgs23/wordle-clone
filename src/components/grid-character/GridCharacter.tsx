@@ -25,13 +25,12 @@ const GridCharacter: React.FunctionComponent<GridCharacterProps> = ({
   const savedRow: number = useSelector((state: Store) => state.savedRow);
   const id: string = `row-${rowIndex}-tile-${index}`;
   const dispatch = useDispatch();
-  const [charClass, setCharClass] = React.useState("character incorrect");
+  const [charClass, setCharClass] = React.useState("character");
   const [initialClassSetup, setInitialClassSetup] = React.useState(true);
 
   useEffect(() => {
     function setClass(tile: GridTileModel, flip: boolean): void {
-      let className: string = "";
-      className = flip ? "character flip " : "character ";
+      let className: string = flip ? "character flip " : "character ";
       switch (tile.status) {
         case CharacterStatus.CORRECT:
           className = className + "correct";
@@ -40,8 +39,10 @@ const GridCharacter: React.FunctionComponent<GridCharacterProps> = ({
           className = className + "missplaced";
           break;
         case CharacterStatus.INCORRECT:
-        default:
           className = className + "incorrect";
+          break;
+        case CharacterStatus.NONE:
+        default:
           break;
       }
       setCharClass(className);
@@ -52,14 +53,14 @@ const GridCharacter: React.FunctionComponent<GridCharacterProps> = ({
       setInitialClassSetup(false);
     } else {
       if (rowIndex === currentRowState - 1) {
-        if (rowIndex === savedRow) {
+        if (rowIndex >= savedRow) {
           setTimeout(() => {
             setClass(tile, true);
             if (index === 4) {
               dispatch(setAnimate(false));
               dispatch(colorizeKeyboard());
             }
-          }, 700 * index);
+          }, 500 * index);
         }
       }
     }

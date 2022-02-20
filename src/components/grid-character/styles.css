@@ -8,6 +8,8 @@
   align-items: center;
   margin: 2px;
   text-transform: capitalize;
+  font-size: x-large;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 40.5em) {
@@ -23,6 +25,10 @@
 
 .correct {
   background-color: green;
+}
+
+.incorrect{
+  background-color: gray;
 }
 
 .flip {

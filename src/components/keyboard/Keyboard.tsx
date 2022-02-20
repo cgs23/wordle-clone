@@ -28,7 +28,7 @@ const Keyboard: React.FunctionComponent = () => {
     return gridState.currentTile === 5;
   }, [gridState.currentTile]);
 
-  const isWordValid: boolean = React.useMemo(() => {
+  const isWordValid = React.useCallback(() => {
     const guess = gridState.rows[gridState.currentRow].tiles
       .map((x) => x.character)
       .join("");
@@ -43,11 +43,16 @@ const Keyboard: React.FunctionComponent = () => {
       case "Enter":
         if (!isSubmitable && gridState.gameStatus === GameStatus.PLAYING)
           toast("Please fill all the letters");
-        if (!isWordValid && isSubmitable) toast("Word is not valid");
-        if (!animate && isSubmitable && isWordValid) {
+        if (!isWordValid() && isSubmitable) toast("Word is not valid");
+        if (!animate && isSubmitable && isWordValid()) {
           dispatch(submit());
+          console.log('ye');
+          
           dispatch(setAnimate(true));
+          console.log('yeeee');
           dispatch(incrementRow());
+          console.log(gridState);
+
         }
         break;
       default:

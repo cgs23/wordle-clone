@@ -78,6 +78,9 @@ const colorizeRow = (
       tiles[i].status = CharacterStatus.MISPLACED;
       hiddenWordArr[idx] = "_";
     }
+    else{
+      tiles[i].status = CharacterStatus.INCORRECT;
+    }
   }
   return {
     ...gridRow,
