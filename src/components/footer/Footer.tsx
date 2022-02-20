@@ -5,7 +5,7 @@ const Footer: React.FunctionComponent = () => {
   return (
     <footer>
       <p style={{ fontSize: "11px" }}>
-        From <a href="https://github.com/cgs23/">Stavros</a> with ❤️
+        From <a href="https://github.com/cgs23/wordle-clone">Stavros</a> with ❤️
       </p>
     </footer>
   );
