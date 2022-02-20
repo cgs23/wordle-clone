@@ -3,6 +3,13 @@
   margin-bottom: 30px;
 }
 
+@media screen and (max-width: 40.5em) {
+  .grid {
+    width: auto;
+  }
+
+}
+
 .grid div {
   display: flex;
 }

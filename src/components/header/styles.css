@@ -4,3 +4,11 @@
   width: 510px;
   border-bottom: solid 1px #3a3a3c;
 }
+
+@media screen and (max-width: 40.5em) {
+  .header {
+    width: 400px;
+    margin-bottom: 10px;
+    font-size: small;
+  }
+}

@@ -7,3 +7,4 @@ React - Redux
 - Not allow duplicate words to be entered
 - force start new game
 - find a way to have the same word per day for everyone
+- add more animations
