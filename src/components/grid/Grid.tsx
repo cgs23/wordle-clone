@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { Store } from "../../store/types/types";
 import { GridRowModel } from "../../models/GridRow"
 import { GameStatus } from "../../constants/enums";
+import toast from "react-hot-toast";
 
 const Grid: React.FunctionComponent = () => {
 
@@ -13,11 +14,13 @@ const Grid: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     if(gridState.gameStatus === GameStatus.WIN && !animate){
-      //display result modal (check if GameStatus.LOSE as well)
+      toast('yay')!
     }
-  
+    if(gridState.gameStatus === GameStatus.LOSE && !animate){
+      toast('nay :<')
+    }
   })
-  
+
 
   return (
     <section className="grid">

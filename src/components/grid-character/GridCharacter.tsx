@@ -16,35 +16,45 @@ interface GridCharacterProps {
 
 const GridCharacter: React.FunctionComponent<GridCharacterProps> = ({tile, index, rowIndex}) => {
     const currentRowState: number = useSelector((state: Store) => state.grid.currentRow);
+    const wasSaved: boolean = useSelector((state: Store) => state.wasSaved);
     const id: string = `row-${rowIndex}-tile-${index}`;
     const dispatch = useDispatch();
     const [charClass, setCharClass] = React.useState('character incorrect');
+    const [initialClassSetup, setInitialClassSetup] = React.useState(true);
 
       useEffect(() => {
-        function setClass(tile: GridTileModel): void{
-            let className: string = 'character';
+        function setClass(tile: GridTileModel, flip: boolean): void{
+            let className: string = '';
+            className = flip ? 'character flip ' : 'character';
             switch(tile.status){
                 case CharacterStatus.CORRECT:
-                    className = className + ' correct flip';
+                    className = className + ' correct';
                     break;
                 case CharacterStatus.MISPLACED:
-                    className = className + ' missplaced flip';
+                    className = className + ' missplaced';
                     break;
                 case CharacterStatus.INCORRECT:
                 default:
-                    className = className + ' incorrect flip';
+                    className = className + ' incorrect';
                     break;
             }
             setCharClass(className);
         }
-        if(rowIndex === currentRowState-1){
-            setTimeout(()=> {
-                setClass(tile);
-                if(index === 4){
-                    dispatch(setAnimate(false));
-                    dispatch(colorizeKeyboard());
-                }
-            }, 500 * index);
+
+        if (wasSaved && initialClassSetup){
+            setClass(tile, false);
+            setInitialClassSetup(false);
+        }
+        else{
+            if(rowIndex === currentRowState-1){
+                setTimeout(()=> {
+                    setClass(tile, true);
+                    if(index === 4){
+                        dispatch(setAnimate(false));
+                        dispatch(colorizeKeyboard());
+                    }
+                }, 700 * index);
+            }
         }
       }, [rowIndex, currentRowState, index, tile.status, tile, dispatch]);
 

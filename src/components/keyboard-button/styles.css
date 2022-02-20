@@ -5,8 +5,13 @@
     border: none;
     background-color: #818384;
     margin: 4px;
+    text-transform: capitalize;
+
 }
 
+.keyboard-button:hover{
+    background-color: darkseagreen;
+}
 .keyboard-button.correct{
     background-color: green;
 }

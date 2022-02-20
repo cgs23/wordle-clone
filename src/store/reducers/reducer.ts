@@ -1,5 +1,6 @@
 import { createStore } from "redux";
 import { ButtonStatus, CharacterStatus, GameStatus } from "../../constants/enums";
+import keyboard from "../../constants/keyboardButtons";
 import { GridModel } from "../../models/Grid";
 import { GridRowModel } from "../../models/GridRow";
 import { GridTileModel } from "../../models/GridTile";
@@ -7,6 +8,7 @@ import { KeyboardButtonModel } from "../../models/KeyboardButton";
 import { KeyboardModel } from "../../models/KeyboardModel";
 import { Action, ADD_TILE, DELETE_TILE, SUBMIT, INCREMENT_ROW, SET_ANIMATE, COLORIZE_KEYBOARD } from "../actions/actions";
 import { Store } from "../types/types";
+import { STORAGE_KEY } from "../types/types";
 
 const addTile = (letter: string, grid: GridModel, animate: boolean): GridModel => {
     if (grid.currentTile > 4 || animate) return grid;
@@ -20,7 +22,6 @@ const addTile = (letter: string, grid: GridModel, animate: boolean): GridModel =
         };
     }
     else {
-        console.log('The game is over!');
         return grid;
     }
 }
@@ -37,7 +38,6 @@ const deleteTile = (grid: GridModel, animate: boolean): GridModel => {
         };
     }
     else {
-        console.log('The game is over!');
         return grid;
     }
 }
@@ -68,67 +68,60 @@ const colorizeRow = (gridRow: GridRowModel, hiddenWord: string): GridRowModel =>
     };
 }
 
-const submitLine = (grid: GridModel, animate: boolean): GridModel => {
-    if (grid.gameStatus !== GameStatus.PLAYING || animate) return grid;
-    if (grid.currentTile !== 5){
-        console.log('Not full word -> Show error');
-        return grid;
-    }
+const submitLine = (state: Store): GridModel => {
+    if (state.grid.gameStatus !== GameStatus.PLAYING || state.animate || state.grid.currentTile !== 5) return state.grid;
+
     // check for word
     // if it is correct -> change game state to win
     // green letters
-    const guess = grid.rows[grid.currentRow].tiles.map(x => x.character).join('');
+    const guess = state.grid.rows[state.grid.currentRow].tiles.map(x => x.character).join('');
     let gameStatus: GameStatus = GameStatus.PLAYING;
-    if (guess === grid.hiddenWord){
-        alert('You win! :>');
+    console.log(guess);
+    console.log(state.grid.hiddenWord);
+    if (guess === state.grid.hiddenWord){
         gameStatus = GameStatus.WIN;
     }
-    else if (grid.currentRow === 5){
-        alert('You lose :<');
+    else if (state.grid.currentRow === 5){
         gameStatus = GameStatus.LOSE;
     }
     // colorize the letters
-    let newGridRows: GridRowModel[] = grid.rows;
-    newGridRows[grid.currentRow] = colorizeRow(grid.rows[grid.currentRow], grid.hiddenWord);
+    let newGridRows: GridRowModel[] = state.grid.rows;
+    newGridRows[state.grid.currentRow] = colorizeRow(state.grid.rows[state.grid.currentRow], state.grid.hiddenWord);
     return {
-        ...grid,
+        ...state.grid,
         rows: newGridRows,
         gameStatus: gameStatus,
-        currentRow: grid.currentRow,
+        currentRow: state.grid.currentRow,
         currentTile: 0
     }
 }
 
 const incrementRow = (grid: GridModel): GridModel => {
-    if (grid.currentRow === 6){
-        console.log('you lost anyway so, lol');
-        return grid;
-    }
     return {
         ...grid,
         currentRow: grid.currentRow + 1
     }
 }
 
-const colorizeKeyboard = (grid: GridModel,keyboard: KeyboardModel): KeyboardModel => {
-    let newKeyboard: KeyboardButtonModel[] = keyboard.keyboard.slice();
+const colorizeKeyboard = (state: Store): KeyboardModel => {
+    let newKeyboard: KeyboardButtonModel[] = state.keyboard.keyboard.slice();
     let idx: number
-    grid.rows.forEach(row => {
+    state.grid.rows.forEach(row => {
         row.tiles.forEach(tile => {
             if (tile.character !== ''){
-                idx = keyboard.keyboard.map(x => x.character).indexOf(tile.character);
+                idx = state.keyboard.keyboard.map(x => x.character).indexOf(tile.character);
                 switch (tile.status) {
                     case CharacterStatus.CORRECT:
                     if (idx !== -1)
-                        keyboard.keyboard[idx].status = ButtonStatus.CORRECT;
+                        state.keyboard.keyboard[idx].status = ButtonStatus.CORRECT;
                         break;
                     case CharacterStatus.INCORRECT:
-                        if (idx !== -1 && keyboard.keyboard[idx].status === ButtonStatus.NONE)
-                            keyboard.keyboard[idx].status = ButtonStatus.INCORRECT;
+                        if (idx !== -1 && state.keyboard.keyboard[idx].status === ButtonStatus.NONE)
+                            state.keyboard.keyboard[idx].status = ButtonStatus.INCORRECT;
                         break;
                     case CharacterStatus.MISPLACED:
-                        if (idx !== -1 && keyboard.keyboard[idx].status === ButtonStatus.NONE)
-                            keyboard.keyboard[idx].status = ButtonStatus.MISSPLACED;
+                        if (idx !== -1 && state.keyboard.keyboard[idx].status === ButtonStatus.NONE)
+                            state.keyboard.keyboard[idx].status = ButtonStatus.MISSPLACED;
                         break;
                     default:
                         break;
@@ -136,23 +129,24 @@ const colorizeKeyboard = (grid: GridModel,keyboard: KeyboardModel): KeyboardMode
             }
         })
     });
-    console.log(newKeyboard);
-    
-    return {
+    const newKeyboardModel = {
         ...keyboard,
+        keyboard: newKeyboard
+    };
+    const newState: Store = {
+        ...state,
+        keyboard: newKeyboardModel,
+        wasSaved: true
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newState));
+
+    return {
+        ...state.keyboard,
         keyboard: newKeyboard
     }
 }
 
-const initialGrid: GridModel = new GridModel('HELLO');
-const initialKeyboard: KeyboardModel = new KeyboardModel();
-
-function reducer(state: Store = {
-    grid: initialGrid,
-    gameStatus: GameStatus.PLAYING,
-    animate: false,
-    keyboard: initialKeyboard
-}, action: Action ) {
+function reducer(state: Store = new Store(), action: Action ) {
     switch (action.type){
         case ADD_TILE:
             return{
@@ -167,7 +161,7 @@ function reducer(state: Store = {
         case SUBMIT:
             return {
                 ...state,
-                grid: submitLine(state.grid, state.animate)
+                grid: submitLine(state)
             }
         case INCREMENT_ROW:
             return {
@@ -182,7 +176,7 @@ function reducer(state: Store = {
         case COLORIZE_KEYBOARD:
             return {
                 ...state,
-                keyboard: colorizeKeyboard(state.grid, state.keyboard)
+                keyboard: colorizeKeyboard(state)
             };
         default:
             return state;
