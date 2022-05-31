@@ -7,6 +7,7 @@ Totally original idea, I know :D
 
 Developed using React and Redux. 
 
+[You can check it out here. ](https://totally-original-idea.netlify.app/)
 
 ## Features
 
